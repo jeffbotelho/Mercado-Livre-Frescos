@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Servico de cadastro de inbound orders
+ * Servico de cadastro e atualizacao de inbound orders
  * @author Weverton Bruno
  *
  */
