@@ -1,22 +1,19 @@
 package com.mercadolibre.grupo1.projetointegrador.controller;
 
 import com.mercadolibre.grupo1.projetointegrador.dtos.ProductDTO;
+import com.mercadolibre.grupo1.projetointegrador.dtos.PurchaseOrderDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseProductDTO;
-import com.mercadolibre.grupo1.projetointegrador.entities.BatchStock;
-import com.mercadolibre.grupo1.projetointegrador.entities.Product;
-import com.mercadolibre.grupo1.projetointegrador.entities.PurchaseOrder;
-import com.mercadolibre.grupo1.projetointegrador.entities.Warehouse;
+import com.mercadolibre.grupo1.projetointegrador.entities.enums.ProductCategory;
 import com.mercadolibre.grupo1.projetointegrador.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Nayara Coca
@@ -36,6 +33,36 @@ public class WarehouseController {
         return ResponseEntity.ok().body(findWarehouseByProducts);
     }
 
+    /**
+     * Requisito 06
+     * @author Jefferson Botelho
+     */
+
+    @PostMapping("/new-warehouse")
+    public ResponseEntity<WarehouseDTO> addNewWarehouse(@Valid @RequestBody WarehouseDTO warehouse,
+                                                        UriComponentsBuilder uriBuilder) {
+        // pega o usuário que esta logado
+//        Customer customer = authService.getPrincipalAs(Customer.class);
+
+//        PurchaseOrder purchaseOrderDTO = purchaseOrderService.createPurchaseOrder(purchaseOrder, customer);
+
+        WarehouseDTO warehouseDto = warehouseService.createWarehouse();
+
+        URI uri = uriBuilder
+                .path("/{idwarehouse}")
+                .buildAndExpand(warehouseDto.getId())
+                .toUri();
+
+
+        return ResponseEntity.created(uri).body(null);
+    }
+
+    // EndPoint para buscar warehouse, sera retornado uma lista de todos os warehouse cadastrados
+    @GetMapping("/list-warehouse")
+    public ResponseEntity<List<WarehouseDTO>> findAllWherehouse() {
+        List<WarehouseDTO> allWarehouse = warehouseService.listAllWarehouse();
+        return ResponseEntity.ok().body(allWarehouse);
+    }
 
 }
 
