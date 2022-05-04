@@ -1,24 +1,16 @@
 package com.mercadolibre.grupo1.projetointegrador.services;
 
-import com.mercadolibre.grupo1.projetointegrador.dtos.PurchaseOrderDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseProductDTO;
-import com.mercadolibre.grupo1.projetointegrador.entities.Customer;
-import com.mercadolibre.grupo1.projetointegrador.entities.PurchaseOrder;
 import com.mercadolibre.grupo1.projetointegrador.entities.Warehouse;
 import com.mercadolibre.grupo1.projetointegrador.exceptions.EntityNotFoundException;
 import com.mercadolibre.grupo1.projetointegrador.exceptions.ListIsEmptyException;
 import com.mercadolibre.grupo1.projetointegrador.exceptions.NotFoundException;
 import com.mercadolibre.grupo1.projetointegrador.repositories.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,12 +36,28 @@ public class WarehouseService {
 
     /**
      * @author Jefferson Botelho
-     * a funcao ira retornar uma lista com todos os armazens cadastrados
+     * Criar um novo Warehouse e Listar todos os Warehouses
      */
+    @Transactional  // so sera persistido no BD se a funcao for executada com sucesso
+    public WarehouseDTO createWarehouse(WarehouseDTO warehouse) {
 
-    public WarehouseDTO createWarehouse() {
+        // o warehouse ira pegar todos os dados informados pelo dto
+        Warehouse responseWarehouse = Warehouse.builder()
+                .name(warehouse.getName())
+                .address(warehouse.getAdress())
+                .build();
+
+        /* o warehouse ira salvar os dados informados pelo dto atraves do repository
+           e ira armazenar as informacoes em um obj */
+        Warehouse createdWarehouse = warehouseRepository.save(responseWarehouse);
+        // o ID do Warehouse sera informado ao dto que sera utilizado pelo controller que esta chamando este service
+        warehouse.setId(createdWarehouse.getId());
+
+        return warehouse;
     }
 
+
+    // a funcao ira retornar uma lista com todos os armazens cadastrados
     public List<WarehouseDTO> listAllWarehouse() {
 
         List<WarehouseDTO> allWarehouse =  warehouseRepository.findAll().stream()

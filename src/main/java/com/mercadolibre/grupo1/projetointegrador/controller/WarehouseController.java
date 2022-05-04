@@ -1,10 +1,9 @@
 package com.mercadolibre.grupo1.projetointegrador.controller;
 
-import com.mercadolibre.grupo1.projetointegrador.dtos.ProductDTO;
-import com.mercadolibre.grupo1.projetointegrador.dtos.PurchaseOrderDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseProductDTO;
-import com.mercadolibre.grupo1.projetointegrador.entities.enums.ProductCategory;
+import com.mercadolibre.grupo1.projetointegrador.entities.Agent;
+import com.mercadolibre.grupo1.projetointegrador.services.AuthService;
 import com.mercadolibre.grupo1.projetointegrador.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ public class WarehouseController {
     @Autowired
     private WarehouseService warehouseService;
 
+
     //método para pesquisar o id de produto e retornar a soma dos produtos por warehouse
     @GetMapping
     public ResponseEntity<List<WarehouseProductDTO>> listProductWarehouse(@RequestParam(required = false,
@@ -38,23 +38,21 @@ public class WarehouseController {
      * @author Jefferson Botelho
      */
 
-    @PostMapping("/new-warehouse")
+    // EndPoint para criar um novo warehouse, sera retornado no corpo os dados cadastrados mais o ID do wharehouse na URI
+    @PostMapping("/new")
     public ResponseEntity<WarehouseDTO> addNewWarehouse(@Valid @RequestBody WarehouseDTO warehouse,
                                                         UriComponentsBuilder uriBuilder) {
-        // pega o usuário que esta logado
-//        Customer customer = authService.getPrincipalAs(Customer.class);
+        /* sera acionado a funcao para criar um novo Warehouse pelo service com os dados informado pelo dto
+           os dados serao salvos em um obj de WarehouseDTO */
+        WarehouseDTO warehouseDto = warehouseService.createWarehouse(warehouse);
 
-//        PurchaseOrder purchaseOrderDTO = purchaseOrderService.createPurchaseOrder(purchaseOrder, customer);
-
-        WarehouseDTO warehouseDto = warehouseService.createWarehouse();
-
+        // o ID gerado pelo BD ao criar um novo warehouse sera informado na URI
         URI uri = uriBuilder
-                .path("/{idwarehouse}")
-                .buildAndExpand(warehouseDto.getId())
+                .path("/{idWarehouse}/created-warehouse")
+                .buildAndExpand(warehouse.getId())
                 .toUri();
 
-
-        return ResponseEntity.created(uri).body(null);
+        return ResponseEntity.created(uri).body(warehouseDto);
     }
 
     // EndPoint para buscar warehouse, sera retornado uma lista de todos os warehouse cadastrados
