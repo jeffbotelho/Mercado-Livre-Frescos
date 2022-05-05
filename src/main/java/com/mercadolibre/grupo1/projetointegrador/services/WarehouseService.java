@@ -36,7 +36,7 @@ public class WarehouseService {
 
     /**
      * @author Jefferson Botelho
-     * Criar um novo Warehouse e Listar todos os Warehouses
+     * Req06: Criar um novo Warehouse e Listar todos os Warehouses
      */
     @Transactional  // so sera persistido no BD se a funcao for executada com sucesso
     public WarehouseDTO createWarehouse(WarehouseDTO warehouse) {

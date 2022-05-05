@@ -48,15 +48,19 @@ public class WarehouseController {
 
         // o ID gerado pelo BD ao criar um novo warehouse sera informado na URI
         URI uri = uriBuilder
-                .path("/{idWarehouse}/created-warehouse")
+                .path("/{idWarehouse}")
                 .buildAndExpand(warehouse.getId())
                 .toUri();
 
+        /*
+         sera setado um ID null no DTO para que o mesmo nao seja informado no retorno. Isso nao afetara em nada o ID no BD
+         */
+        warehouseDto.setId(null);
         return ResponseEntity.created(uri).body(warehouseDto);
     }
 
     // EndPoint para buscar warehouse, sera retornado uma lista de todos os warehouse cadastrados
-    @GetMapping("/list-warehouse")
+    @GetMapping("/list")
     public ResponseEntity<List<WarehouseDTO>> findAllWherehouse() {
         List<WarehouseDTO> allWarehouse = warehouseService.listAllWarehouse();
         return ResponseEntity.ok().body(allWarehouse);
