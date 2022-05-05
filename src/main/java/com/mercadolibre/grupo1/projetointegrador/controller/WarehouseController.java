@@ -2,8 +2,6 @@ package com.mercadolibre.grupo1.projetointegrador.controller;
 
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseProductDTO;
-import com.mercadolibre.grupo1.projetointegrador.entities.Agent;
-import com.mercadolibre.grupo1.projetointegrador.services.AuthService;
 import com.mercadolibre.grupo1.projetointegrador.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
