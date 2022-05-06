@@ -21,15 +21,15 @@ Endpoints do Projeto Integrador
 
 ## Requisitos
 
-[X] [Requisito 01](https://drive.google.com/file/d/1rbT3upYAwN-CrOVtze0M2Fq7Cobuj7FD/view)
+:white_check_mark: [Requisito 01](https://drive.google.com/file/d/1rbT3upYAwN-CrOVtze0M2Fq7Cobuj7FD/view)
 
-[X] [Requisito 02](https://drive.google.com/file/d/1M66St3F6TwWJ6WG_s1in75_bMyeKb8PM/view)
+:white_check_mark: [Requisito 02](https://drive.google.com/file/d/1M66St3F6TwWJ6WG_s1in75_bMyeKb8PM/view)
 
-[X] [Requisito 03](https://drive.google.com/file/d/1GnTl6sHhdvyKjR0oz0nXlyvzH-oW_2Jv/view)
+:white_check_mark: [Requisito 03](https://drive.google.com/file/d/1GnTl6sHhdvyKjR0oz0nXlyvzH-oW_2Jv/view)
 
-[X] [Requisito 04](https://drive.google.com/file/d/1kNZLztafr2tXuDU24W9xwUu09va2kMP0/view)
+:white_check_mark: [Requisito 04](https://drive.google.com/file/d/1kNZLztafr2tXuDU24W9xwUu09va2kMP0/view)
 
-[X] [Requisito 05](https://drive.google.com/file/d/1yiEzdwI87K7AO9bgPffHbb0DPjVKM-oP/view)
+:white_check_mark: [Requisito 05](https://drive.google.com/file/d/1yiEzdwI87K7AO9bgPffHbb0DPjVKM-oP/view)
 
 ## Ferramentas e Tecnologias
 - [Java](https://docs.oracle.com/en/java/)

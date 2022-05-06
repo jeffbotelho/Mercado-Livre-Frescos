@@ -1,7 +1,8 @@
 package com.mercadolibre.grupo1.projetointegrador.dtos;
 
-import com.mercadolibre.grupo1.projetointegrador.entities.Warehouse;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Nayara Coca
