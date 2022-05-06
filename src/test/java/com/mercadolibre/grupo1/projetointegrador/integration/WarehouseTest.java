@@ -1,8 +1,10 @@
 package com.mercadolibre.grupo1.projetointegrador.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseDTO;
 import com.mercadolibre.grupo1.projetointegrador.dtos.WarehouseProductDTO;
 import com.mercadolibre.grupo1.projetointegrador.entities.Agent;
+import com.mercadolibre.grupo1.projetointegrador.entities.Warehouse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
@@ -41,7 +44,7 @@ public class WarehouseTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private static final String BASE_URL = "http://localhost:8080/api/v1/fresh-products";
+    private static final String BASE_URL = "/api/v1/fresh-products";
 
     @Test
     @WithMockUser(username = "agent1", roles = {"AGENT"})
@@ -69,5 +72,44 @@ public class WarehouseTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("PRODUTO NÃO ENCONTRADO"));
+    }
+
+    /**
+     * @author Jefferson Botelho
+     * Req06 Testes te integracao
+     */
+
+    // Verifica se e criado um novo warehouse
+    @Test
+    @WithMockUser(username = "agent1", roles = {"AGENT"})
+    public void createWarehouse() throws Exception {
+
+        WarehouseDTO warehouse = warehouseFake();
+        String s = objectMapper.writeValueAsString(warehouse);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URL + "/warehouse/new").contentType(MediaType.APPLICATION_JSON).content(s))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(jsonPath("$.name", Matchers.is("MG")))
+                .andExpect(jsonPath("$.adress", Matchers.is("39895-000"))).andReturn();
+
+
+    }
+
+    // verifica se e retornado os warehouses cadastrados
+    @Test
+    @WithMockUser(username = "agent1", roles = {"AGENT"})
+    public void listAllWarehousesTest() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/warehouse/list").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$.[0].name", Matchers.is("SP")))
+                .andExpect(jsonPath("$.[1].adress", Matchers.is("22222-000")));
+    }
+
+    private WarehouseDTO warehouseFake() {
+        WarehouseDTO warehouseDTO = new WarehouseDTO();
+        warehouseDTO.setName("MG");
+        warehouseDTO.setAdress("39895-000");
+        return warehouseDTO;
     }
 }

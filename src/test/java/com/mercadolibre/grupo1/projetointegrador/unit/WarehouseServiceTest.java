@@ -60,6 +60,7 @@ public class WarehouseServiceTest {
     public void listAllWarehouseTest() {
         List<Warehouse> allWarehouses = warehouseFake();
         Mockito.when(warehouseRepository.findAll()).thenReturn(allWarehouses);
+        warehouseService.listAllWarehouse();
 
         Mockito.verify(warehouseRepository).findAll();
     }
